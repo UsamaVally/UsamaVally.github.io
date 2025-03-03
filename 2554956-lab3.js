@@ -3,17 +3,14 @@ function getTitlesByReleaseYear(songs) {
         throw new Error('Input should be an array of music track objects');
     }
 
-    return songs.reduce((result, song) => {
-        if (typeof song !== 'object' || !song.title || !song.releaseYear || typeof song.releaseYear !== 'number') {
-            throw new Error('Each song should be an object with a title (string) and a release year (number)');
+    return songs.reduce((result, { title, releaseYear }) => {
+        if (typeof releaseYear !== 'number' || typeof title !== 'string') {
+            throw new Error('Each song should have a title (string) and a release year (number)');
         }
 
-        const { releaseYear, title } = song;
-        if (!result[releaseYear]) {
-            result[releaseYear] = [];
-        }
+        result[releaseYear] = result[releaseYear] || [];
         result[releaseYear].push(title);
-        result[releaseYear].sort(); 
+        
         return result;
     }, {});
 }
